@@ -1,0 +1,79 @@
+---
+title: "Proposal"
+author: "Lara 'Larissa' Weaver"
+date: "April 10, 2017"
+output:
+html_documnet: default
+git_document: default
+---
+
+#Proposal 
+
+Participant: Lara "Larissa" G. Weaver
+
+The project will be an R package meant to perform probabilistic analysis on various aspects of American state and regional experience by ethnicity with the caveat that it is developed to preform data analysis on a specific data set. Time permitting, the package will be tested with data sets of similar structure, and the developer will add a GUI via Shiny, possibly including a map.
+
+The project has a single contributor, so the Git workflow will mostly closely resemble a workflow using Subversion (Chacon, 5.2); however, in the event of a proposed collaboration at a future date, it would follow the Manager-Integration workflow.
+
+#The Project & the Data 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+
+#read in Washington Post data and convert into df with fatalities by state, with 
+#ethnicity as rows
+
+fatal_shootings <- read_csv('fatal_shootings.csv', col_names = TRUE)
+
+state_shootings <- count(fatal_shootings, race, state)
+
+shootings <- spread(state_shootings, key = state, value = n)
+
+summary(shootings)
+```
+
+
+This project is most generally about analyzing the probability that a given event would have a demonstrated distribution of occurrence across a population delineated by ethnicity. 
+
+More specifically, it grew out of the desire to answer a single, more specific question: 
+
+Given the Washington Post's excellent and ambitious collection of data for people shot and killed (or otherwise fatally injured) by police officers in all 50 U.S. states plus the District of Columbia by ethnicity in year 2016, how probable, given the ethnic makeup of individual states or regions, was the distribution of people killed?
+
+When various political entities call to attention the question of racial bias among police informing their decision to use deadly force, the claim of bias can be assessed to some extent with various quantitative methods. If such a bias exists, for example, we expect the distribution of ethnic populations will not be proportional to the distribution of individuals killed by ethnicity. Moreover, we expect that a distribution of people killed that is NOT proportional to the population demographics will be less probable. 
+
+Does this probability vary by region? How does it vary by the distribution of ethnicity among residents? For example, are states with a higher percentage of total residents of a certain ethnicity more or less likely to have a disproportionate representation of individuals who either identify as that ethnicity or are identified by an other (i.e. a police officer) as that ethnicity among those killed by police? How do these probabilities vary by region in general? How about by regions of differing majority political affiliations? How does the affluence or unemployment within an area affect comparisons?   
+
+As stated, the raw data that initially inspired the ensuing package development project comes from the Washington Post and can be accessed here: https://github.com/washingtonpost/data-police-shootings
+
+For demographic data, I plan on using data from the 2010 U.S. Census. 
+
+This project will produce a set of functions within a package that will also contain data from WaPo and U.S. Census. 
+
+Assuming that the GUI will be part of the completed project, a user will be able to define regions and discover:
+
+a. how many people were fatally injured by police within the given region in 2016
+b. how many people were fatally injured by police within the give region in 2016 by ethnicity
+c. the estimated population within the given region in 2016
+d. the estimated population within the given region in 2016 by ethnicity
+e. the probability of the given distribution of people fatally injured by police in the given region by ethnicity
+
+Part e--herein lies the tricky part--the developer only recently began reading into the problematic nature of problematizing (social) data with probabilities. At this time, the developer cannot yet outline the specific probabilistic analysis proposed. The research behind this comprises a fair amount of the early development time. 
+
+#What's in the Pudding?
+
+Per (in some cases verbatim) project criteria, my project will include:
+
+Data set(s) to analyze
+Well-documented R code 
+An .md file, generated from a .Rmd file, introducing the problem, explaining the data and the analysis, and presenting and analyzing the results
+A functions to allow a user to define regions of interest
+Documentation for those functions created using the roxygen2() package
+An example data set that can be used to demonstrate what the functions do
+A vignette, explaining what the package contains, with a walk-through how it will work
+It will be installable via devtools::install_github()
+
+
+
+
